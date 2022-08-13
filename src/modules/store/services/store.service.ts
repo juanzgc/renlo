@@ -83,10 +83,13 @@ export default class StoreService extends MedusaStoreService {
     const storeRepo = this.manager.getCustomRepository(this.storeRepository);
     const store = await storeRepo.findOne({
       ...config,
-      join: { alias: 'store', innerJoin: { users: 'store.tenant_members' } },
+      join: {
+        alias: 'store',
+        innerJoin: { tenant_members: 'store.tenant_members' }
+      },
       where: (qb) => {
-        qb.where('users.id = :userId', {
-          userId: this.container.loggedInUser.id
+        qb.where('tenant_members.id = :tenantMembersId', {
+          tenantMembersId: this.container.loggedInUser.id
         });
       }
     });
