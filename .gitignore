@@ -1,0 +1,9 @@
+dist
+node_modules
+tsconfig.tsbuildinfo
+.vscode
+
+.env
+.env.*
+
+ormconfig.json
