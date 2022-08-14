@@ -7,6 +7,7 @@ import { Service } from 'medusa-extender';
 import { User } from '../entities/user.entity';
 import UserRepository from '../repositories/user.repository';
 import { validateId, buildQuery } from '@medusajs/medusa/dist/utils';
+import UserSubscriber from '../subscribers/user.subscriber';
 
 type InjectedDependencies = {
   manager: EntityManager;
@@ -28,6 +29,7 @@ export default class UserService extends MedusaUserService {
     this.userRepository = container.userRepository;
     this.eventBus = container.eventBusService;
     this.container = container;
+    UserSubscriber.attachTo(this.manager.connection);
   }
 
   public async retrieve(

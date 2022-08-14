@@ -26,7 +26,7 @@ export class AttachUserSubscriberMiddleware implements MedusaMiddleware {
     const { connection } = req.scope.resolve(MEDUSA_RESOLVER_KEYS.manager) as {
       connection: Connection;
     };
-    MedusaUtils.attachOrReplaceEntitySubscriber(connection, UserSubscriber);
+    UserSubscriber.attachTo(connection);
     return next();
   }
 }

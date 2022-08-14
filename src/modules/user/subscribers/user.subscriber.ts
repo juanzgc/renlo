@@ -25,8 +25,10 @@ export default class UserSubscriber implements EntitySubscriberInterface<User> {
    * Relay the event to the handlers.
    * @param event Event to pass to the event handler
    */
-  public async beforeInsert(event: InsertEvent<User>): Promise<void> {
-    return await eventEmitter.emitAsync(
+  public async beforeInsert(
+    event: InsertEvent<User>
+  ): Promise<InsertEvent<User>> {
+    return eventEmitter.emitAsync<InsertEvent<User>>(
       OnMedusaEntityEvent.Before.InsertEvent(User),
       {
         event,
@@ -34,4 +36,14 @@ export default class UserSubscriber implements EntitySubscriberInterface<User> {
       }
     );
   }
+
+  // public async beforeInsert(event: InsertEvent<User>): Promise<void> {
+  //   return await eventEmitter.emitAsync(
+  //     OnMedusaEntityEvent.Before.InsertEvent(User),
+  //     {
+  //       event,
+  //       transactionalEntityManager: event.manager
+  //     }
+  //   );
+  // }
 }
