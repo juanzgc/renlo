@@ -2,27 +2,22 @@ import {
   MEDUSA_RESOLVER_KEYS,
   MedusaAuthenticatedRequest,
   MedusaMiddleware,
-  Utils as MedusaUtils,
   Middleware
 } from 'medusa-extender';
-import { NextFunction, Response } from 'express';
-
+import { NextFunction, Request, Response } from 'express';
 import { Connection } from 'typeorm';
 import UserSubscriber from '../subscribers/user.subscriber';
 
 @Middleware({
   requireAuth: false,
-  routes: [
-    { method: 'post', path: '/admin/users' },
-    { method: 'post', path: '/admin/create-user' }
-  ]
+  routes: [{ method: 'post', path: '/admin/users' }]
 })
 export class AttachUserSubscriberMiddleware implements MedusaMiddleware {
-  public async consume(
-    req: MedusaAuthenticatedRequest,
+  public consume(
+    req: MedusaAuthenticatedRequest | Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): void {
     const { connection } = req.scope.resolve(MEDUSA_RESOLVER_KEYS.manager) as {
       connection: Connection;
     };
