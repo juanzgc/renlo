@@ -9,6 +9,7 @@ import {
   Service
 } from 'medusa-extender';
 import UserRepository from '../repositories/user.repository';
+import UserSubscriber from '../subscribers/user.subscriber';
 
 type InjectedDependencies = {
   manager: EntityManager;
@@ -27,6 +28,9 @@ export default class UserService extends MedusaUserService {
     this.manager = container.manager;
     this.userRepository = container.userRepository;
     this.eventBus = container.eventBusService;
+
+    // Only works when this is not commented. Middleware doesn't seem to work.
+    // UserSubscriber.attachTo(this.manager.connection);
   }
 
   @OnMedusaEntityEvent.Before.Insert(User, { async: true })
