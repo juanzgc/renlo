@@ -30,7 +30,7 @@ export default class UserService extends MedusaUserService {
     this.eventBus = container.eventBusService;
 
     // Only works when this is not commented. Middleware doesn't seem to work.
-    // UserSubscriber.attachTo(this.manager.connection);
+    UserSubscriber.attachTo(this.manager.connection);
   }
 
   @OnMedusaEntityEvent.Before.Insert(User, { async: true })
