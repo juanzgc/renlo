@@ -8,6 +8,14 @@ import { NextFunction, Response } from 'express';
 // Extended
 import UserService from '../services/user.service';
 
+/**
+ * loggedInUser
+ *
+ * @DynamicDependency
+ *
+ * Dynamic dependency that provides the logged in user.
+ *
+ */
 @Middleware({
   requireAuth: true,
   routes: [{ method: 'all', path: '/admin/*' }]
