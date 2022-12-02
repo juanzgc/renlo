@@ -33,6 +33,7 @@
     "awilix": "^4.2.3",
     "dotenv": "^12.0.4",
     "express": "^4.17.1",
+    "glob": "^8.0.3",
     "medusa-core-utils": "^1.1.31",
     "medusa-extender": "^1.7.7",
     "medusa-fulfillment-manual": "^1.1.30",

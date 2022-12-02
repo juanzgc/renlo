@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { getModels } from './globtest';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -7,13 +8,16 @@ export const AppDataSource = new DataSource({
   password: 'postgres',
   database: 'testextender',
   logging: true,
-  entities: [
-    'dist/modules/**/*.entity.js'
-    // 'node_modules/@medusajs/medusa/dist/models/**/*.js'
-  ],
+  entities: getModels(),
+  // entities: [
+  //   'dist/modules/**/*.entity.js'
+  //   // 'node_modules/@medusajs/medusa/dist/models/**/*.js'
+  // ],
   migrations: [
+    'node_modules/@medusajs/medusa/dist/migrations/**/*.js',
     'dist/modules/migrations/*.js'
-    // 'node_modules/@medusajs/medusa/dist/migrations/**/*.js'
   ],
   subscribers: []
 });
+
+console.log('get models', getModels());
