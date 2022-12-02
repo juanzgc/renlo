@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express = require('express');
 /* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('../medusa-config');
