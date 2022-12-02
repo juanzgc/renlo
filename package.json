@@ -15,7 +15,7 @@
   },
   "scripts": {
     "seed": "medusa seed -f ./data/seed.json",
-    "typeorm": "typeorm-ts-node-commonjs",
+    "typeorm": "typeorm-ts-node-commonjs -d datasource.ts",
     "migration:generate": "yarn typeorm migration:generate",
     "db:reset": "yarn run typeorm query \"DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT USAGE ON SCHEMA public to PUBLIC; GRANT CREATE ON SCHEMA public to PUBLIC; COMMENT ON SCHEMA public IS 'standard public schema';\"",
     "db:user": "medusa user -e admin@medusa-test.com -p supersecret",
