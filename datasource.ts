@@ -14,10 +14,9 @@ export const AppDataSource = new DataSource({
   //   // 'node_modules/@medusajs/medusa/dist/models/**/*.js'
   // ],
   migrations: [
-    'node_modules/@medusajs/medusa/dist/migrations/**/*.js',
-    'dist/modules/migrations/*.js'
+    // 'node_modules/@medusajs/medusa/dist/migrations/**/*.js',
+    'dist/modules/migration/*.js'
   ],
-  subscribers: []
+  subscribers: [],
+  synchronize: false
 });
-
-console.log('get models', getModels());

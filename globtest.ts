@@ -49,4 +49,6 @@ export const getModels = () => {
   return models;
 };
 
+getModels();
+
 export const getMigrations = () => {};

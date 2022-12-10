@@ -7,4 +7,7 @@ import { Entity as MedusaEntity } from 'medusa-extender';
 export class Product extends MedusaProduct {
   @Column({ nullable: false })
   store_id: string;
+
+  @Column({ nullable: false })
+  store_id_2: string;
 }

@@ -2,8 +2,8 @@
   "type": "postgres",
   "url": "postgres://postgres:postgres@localhost:5432/testextender",
   "synchronize": false,
-  "entities": ["dist/modules/**/*.entity.js"],
-  "migrations": ["dist/modules/migrations/*.js"],
+  "entities": ["node_modules/@medusajs/medusa/dist/models/**/*.js"],
+  "migrations": ["node_modules/@medusajs/medusa/dist/migrations/**/*.js"],
   "cli": {
     "migrationsDir": "src/modules/migrations"
   }
