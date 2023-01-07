@@ -1,6 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class InitialMigration1670645201506 implements MigrationInterface {
+export default class InitialMigration1670645201506
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `ALTER TABLE "user" ADD "store_id" character varying`
