@@ -1,7 +1,6 @@
 import { EntityManager } from 'typeorm'
 import EventBusService from '@medusajs/medusa/dist/services/event-bus'
 import { FindConfig } from '@medusajs/medusa/dist/types/common'
-import { MedusaError } from 'medusa-core-utils'
 import {
   AnalyticsConfigService,
   UserService as MedusaUserService,

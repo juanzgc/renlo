@@ -1,4 +1,4 @@
-import { OneToMany, Column, Entity, JoinColumn } from 'typeorm'
+import { OneToMany, Entity, JoinColumn } from 'typeorm'
 import { Entity as MedusaEntity } from 'medusa-extender'
 import { Store as MedusaStore } from '@medusajs/medusa/dist'
 import { User } from '../user/user.entity'

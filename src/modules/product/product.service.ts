@@ -11,7 +11,6 @@ import { Product } from './product.entity'
 import { User } from '../user/user.entity'
 import UserService from '../user/user.service'
 import { FlagRouter } from '@medusajs/medusa/dist/utils/flag-router'
-import { FindWithoutRelationsOptions } from '@medusajs/medusa/dist/repositories/product'
 import { Selector } from '@medusajs/medusa/dist/types/common'
 import {
   FilterableProductProps,
