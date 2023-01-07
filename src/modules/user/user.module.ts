@@ -1,11 +1,21 @@
-import { Module } from 'medusa-extender';
-
-import { AttachUserSubscriberMiddleware } from './middlewares/userSubscriber.middleware';
-import { User } from './entities/user.entity';
-import UserRepository from './repositories/user.repository';
-import UserService from './services/user.service';
+import { AttachUserSubscriberMiddleware } from './userSubscriber.middleware'
+import { LoggedInUserMiddleware } from './loggedInUser.middleware'
+import { Module } from 'medusa-extender'
+import { User } from './user.entity'
+import UserRepository from './user.repository'
+import { UserRouter } from './user.router'
+import UserService from './user.service'
+import UserSubscriber from './user.subscriber'
 
 @Module({
-  imports: [User, UserService, UserRepository]
+  imports: [
+    User,
+    UserService,
+    UserRepository,
+    UserSubscriber,
+    UserRouter,
+    LoggedInUserMiddleware,
+    AttachUserSubscriberMiddleware,
+  ],
 })
 export class UserModule {}

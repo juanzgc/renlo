@@ -15,10 +15,32 @@ switch (process.env.NODE_ENV) {
 
 dotenv.config({ path: process.cwd() + '/' + ENV_FILE_NAME });
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 const PORT = process.env.PORT || 9000;
-const ADMIN_CORS = process.env.ADMIN_CORS || 'http://localhost:8080';
-const STORE_CORS = process.env.STORE_CORS || '';
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:9000';
+const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost:8080';
+
+// CORS when consuming Medusa from admin
+const ADMIN_CORS =
+  process.env.ADMIN_CORS ||
+  'http://localhost:7000,http://localhost:7001,http://localhost:8080';
+
+// CORS to avoid issues when consuming Medusa from a client
+const STORE_CORS = process.env.STORE_CORS || 'http://localhost:8000';
+
+// Database URL (here we use a local database called medusa-development)
+const DATABASE_URL =
+  process.env.DATABASE_URL || 'postgres://localhost/medusa-store';
+
+// Medusa uses Redis, so this needs configuration as well
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+
+// Stripe keys
+const STRIPE_API_KEY = process.env.STRIPE_API_KEY || '';
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
+
+// Google Auth
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 
 const plugins = [`medusa-fulfillment-manual`, `medusa-payment-manual`];
 
@@ -30,7 +52,7 @@ module.exports = {
     jwtSecret: process.env.JWT_SECRET,
     cookieSecret: process.env.COOKIE_SECRET,
 
-    database_url: `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
+    database_url: DATABASE_URL,
     database_type: 'postgres',
     store_cors: STORE_CORS,
     admin_cors: ADMIN_CORS,

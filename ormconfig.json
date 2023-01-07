@@ -1,6 +1,6 @@
 {
   "type": "postgres",
-  "url": "postgres://juan@localhost:5432/renlo",
+  "url": "postgres://postgres:postgres@localhost:5432/renlo",
   "synchronize": false,
   "entities": ["dist/modules/**/*.entity.js"],
   "migrations": ["dist/modules/migrations/*.js"],

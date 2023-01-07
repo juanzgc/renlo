@@ -1,7 +1,6 @@
-import { Module } from 'medusa-extender';
-import { InitialMigration1659855426558 } from '../migrations/1659855426558-InitialMigration';
-
+import { Module } from 'medusa-extender'
+import { InitialMigration1670645201506 } from '../migrations/1670645201506-InitialMigration'
 @Module({
-  imports: [InitialMigration1659855426558]
+  imports: [InitialMigration1670645201506],
 })
 export class MigrationModule {}
