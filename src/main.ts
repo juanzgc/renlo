@@ -9,7 +9,10 @@ import { MigrationModule } from './modules/migration/migration.module'
 async function bootstrap() {
   const expressInstance = express()
 
-  await new Medusa(resolve(__dirname, '..'), expressInstance).load([MigrationModule, UserModule])
+  await new Medusa(resolve(__dirname, '..'), expressInstance).load([
+    MigrationModule,
+    UserModule,
+  ])
 
   expressInstance.listen(config.serverConfig.port, () => {
     console.info(
