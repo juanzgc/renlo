@@ -1,5 +1,7 @@
+import { Migration } from 'medusa-extender'
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
+@Migration()
 export default class InitialMigration1670645201506
   implements MigrationInterface
 {
