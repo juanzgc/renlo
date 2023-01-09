@@ -16,12 +16,12 @@ type ConstructorParams = {
   manager: EntityManager
   userRepository: typeof UserRepository
   eventBusService: EventBusService
-  loggedInUser?: User
   analyticsConfigService: AnalyticsConfigService
   featureFlagRouter: FlagRouter
+  loggedInUser?: User
 }
 
-@Service({ override: MedusaUserService })
+@Service({ override: MedusaUserService, scope: 'SCOPED' })
 export default class UserService extends MedusaUserService {
   private readonly manager: EntityManager
   private readonly userRepository: typeof UserRepository

@@ -11,11 +11,12 @@ import { Product } from './product.entity'
 import { User } from '../user/user.entity'
 import UserService from '../user/user.service'
 import { FlagRouter } from '@medusajs/medusa/dist/utils/flag-router'
-import { Selector } from '@medusajs/medusa/dist/types/common'
+import { FindConfig, Selector } from '@medusajs/medusa/dist/types/common'
 import {
   FilterableProductProps,
   FindProductConfig,
 } from '@medusajs/medusa/dist/types/product'
+import { PriceListLoadConfig } from '@medusajs/medusa'
 
 type ConstructorParams = {
   manager: any
@@ -57,17 +58,18 @@ export class ProductService extends MedusaProductService {
 
   protected prepareListQuery_(
     selector: FilterableProductProps | Selector<Product>,
-    config: FindProductConfig
+    config: FindConfig<Product> & PriceListLoadConfig
   ) {
-    const loggedInUser = Object.keys(this.container).includes('loggedInUser')
-      ? this.container.loggedInUser
-      : null
-
-    if (loggedInUser) {
-      selector['store_id'] = loggedInUser.store_id
+    if (
+      Object.keys(this.container).includes('loggedInUser') &&
+      this.container.loggedInUser.store_id
+    ) {
+      selector['store_id'] = this.container.loggedInUser.store_id
     }
 
-    return super.prepareListQuery_(selector, config)
+    ;(config.select as any) = config.select?.push('store_id') || ['store_id']
+
+    return super.prepareListQuery_(selector, config as any)
   }
 
   async retrieve(
