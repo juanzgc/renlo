@@ -67,7 +67,8 @@ export class ProductService extends MedusaProductService {
       selector['store_id'] = this.container.loggedInUser.store_id
     }
 
-    ;(config.select as any) = config.select?.push('store_id') || ['store_id']
+    config.select = config.select || []
+    config.select.push('store_id')
 
     return super.prepareListQuery_(selector, config as any)
   }

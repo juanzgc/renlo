@@ -1,11 +1,11 @@
 import { EntityManager } from 'typeorm'
+import { Service } from 'medusa-extender'
 import EventBusService from '@medusajs/medusa/dist/services/event-bus'
 import { FindConfig } from '@medusajs/medusa/dist/types/common'
 import {
   AnalyticsConfigService,
   UserService as MedusaUserService,
 } from '@medusajs/medusa/dist/services'
-import { Service } from 'medusa-extender'
 import { User } from './user.entity'
 import UserRepository from './user.repository'
 import { FlagRouter } from '@medusajs/medusa/dist/utils/flag-router'

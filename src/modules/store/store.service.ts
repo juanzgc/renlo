@@ -14,7 +14,6 @@ import { Store } from './store.entity'
 import StoreRepository from './store.repository'
 import { User } from '../user/user.entity'
 import { FindConfig } from '@medusajs/medusa/dist/types/common'
-import { buildQuery } from '@medusajs/medusa/dist/utils/build-query'
 
 interface ConstructorParams {
   loggedInUser?: User
@@ -72,14 +71,19 @@ export default class StoreService extends MedusaStoreService {
   }
 
   public async retrieve(config: FindConfig<Store> = {}): Promise<Store> {
-    if (!Object.keys(this.container).includes('loggedInUser')) {
+    if (
+      !Object.keys(this.container).includes('loggedInUser') ||
+      !this.container.loggedInUser.store_id
+    ) {
       return (await super.retrieve(config as any)) as unknown as Promise<Store>
     }
 
-    const query = buildQuery({}, config)
+    config.relations = config.relations || []
+    config.relations.push('members')
+
     const storeRepo = this.manager.getCustomRepository(this.storeRepository)
     const store = await storeRepo.findOne({
-      ...config,
+      relations: config.relations,
       join: { alias: 'store', innerJoin: { members: 'store.members' } },
       where: (qb) => {
         qb.where('members.id = :memberId', {
