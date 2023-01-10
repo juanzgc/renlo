@@ -8,15 +8,12 @@ import { Product } from '../product/product.entity'
 @MedusaEntity({ override: MedusaStore })
 @Entity()
 export class Store extends MedusaStore {
-  @OneToMany(() => User, (user) => user.store_id)
-  @JoinColumn({ name: 'id', referencedColumnName: 'store_id' })
+  @OneToMany(() => User, (user) => user.store)
   members: User[]
 
-  @OneToMany(() => Product, (product) => product.store_id)
-  @JoinColumn({ name: 'id', referencedColumnName: 'store_id' })
+  @OneToMany(() => Product, (product) => product.store)
   products: Product[]
 
-  @OneToMany(() => Order, (order) => order.store_id)
-  @JoinColumn({ name: 'id', referencedColumnName: 'store_id' })
+  @OneToMany(() => Order, (order) => order.store)
   orders: Order[]
 }
