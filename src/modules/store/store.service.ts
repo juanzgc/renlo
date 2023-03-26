@@ -14,6 +14,9 @@ import { Store } from './store.entity'
 import StoreRepository from './store.repository'
 import { User } from '../user/user.entity'
 import { FindConfig } from '@medusajs/medusa/dist/types/common'
+import SalesChannelService from '../sales-channel/sales-channel.service'
+import SalesChannelRepository from '../sales-channel/sales-channel.repository'
+import { Invite } from '../invite/invite.entity'
 
 interface ConstructorParams {
   loggedInUser?: User
@@ -21,17 +24,22 @@ interface ConstructorParams {
   storeRepository: typeof StoreRepository
   currencyRepository: typeof CurrencyRepository
   eventBusService: EventBusService
+  salesChannelRepository: typeof SalesChannelRepository
 }
 
 @Service({ override: MedusaStoreService, scope: 'SCOPED' })
 export default class StoreService extends MedusaStoreService {
   private readonly manager: EntityManager
   private readonly storeRepository: typeof StoreRepository
+  private readonly salesChannelRepository: typeof SalesChannelRepository
+  private readonly currencyRepository: typeof CurrencyRepository
 
   constructor(private readonly container: ConstructorParams) {
     super(container)
     this.manager = container.manager
     this.storeRepository = container.storeRepository
+    this.salesChannelRepository = container.salesChannelRepository
+    this.currencyRepository = container.currencyRepository
   }
 
   @OnMedusaEntityEvent.Before.Insert(User, { async: true })
@@ -43,6 +51,7 @@ export default class StoreService extends MedusaStoreService {
       ? this.container.loggedInUser.store_id
       : null
     if (!store_id) {
+      // Create Store for new user
       const createdStore = await this.withTransaction(
         event.manager
       ).createForUser(event.entity)
@@ -66,8 +75,55 @@ export default class StoreService extends MedusaStoreService {
       return
     }
     const storeRepo = this.manager.getCustomRepository(this.storeRepository)
+    const currencyRepo = this.manager.getCustomRepository(
+      this.currencyRepository
+    )
+
     const store = storeRepo.create() as Store
-    return storeRepo.save(store)
+    // Add default currency (USD) to store currencies
+    const usd = await currencyRepo.findOne({
+      code: 'usd',
+    })
+
+    if (usd) {
+      store.currencies = [usd]
+    }
+
+    await storeRepo.save(store)
+
+    const salesChannelRepo = this.manager.getCustomRepository(
+      this.salesChannelRepository
+    )
+    const salesChannel = salesChannelRepo.create({
+      description: 'Created by Renlo',
+      name: 'Default Sales Channel',
+      is_disabled: false,
+      store_id: store.id,
+    })
+    await salesChannelRepo.save(salesChannel)
+
+    await storeRepo.update(
+      { id: store.id },
+      { default_sales_channel_id: salesChannel.id }
+    )
+
+    return store
+  }
+
+  @OnMedusaEntityEvent.Before.Insert(Invite, { async: true })
+  public async addStoreToInvite(
+    params: MedusaEventHandlerParams<Invite, 'Insert'>
+  ): Promise<EntityEventType<Invite, 'Insert'>> {
+    const { event } = params
+    const store_id = Object.keys(this.container).includes('loggedInUser')
+      ? this.container.loggedInUser.store_id
+      : null
+
+    if (!event.entity.store_id && store_id) {
+      event.entity.store_id = store_id
+    }
+
+    return event
   }
 
   public async retrieve(config: FindConfig<Store> = {}): Promise<Store> {

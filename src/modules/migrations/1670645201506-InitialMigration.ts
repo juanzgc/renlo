@@ -52,11 +52,26 @@ export default class InitialMigration1670645201506
       `CREATE INDEX "IDX_sales_channel_store_id" ON "sales_channel" ("store_id")`
     )
     await queryRunner.query(
-      `ALTER TABLE "sales_channel" ADD CONSTRAINT "FK_sales_channel_store_id" FOREIGN KEY ("store_id") REFERENCES ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "sales_channel" ADD CONSTRAINT "FK_sales_channel_store_id" FOREIGN KEY ("store_id") REFERENCES "store"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    )
+
+    await queryRunner.query(
+      `ALTER TABLE "invite" ADD "store_id" character varying`
+    )
+    await queryRunner.query(
+      `CREATE INDEX "IDX_invite_store_id" ON "invite" ("store_id")`
+    )
+    await queryRunner.query(
+      `ALTER TABLE "invite" ADD CONSTRAINT "FK_invite_store_id" FOREIGN KEY ("store_id") REFERENCES "store"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "invite" DROP CONSTRAINT "FK_invite_store_id"`
+    )
+    await queryRunner.query(`DROP INDEX "public"."IDX_invite_store_id"`)
+    await queryRunner.query(`ALTER TABLE "invite" DROP COLUMN "store_id"`)
     await queryRunner.query(
       `ALTER TABLE "sales_channel" DROP CONSTRAINT "FK_sales_channel_store_id"`
     )
