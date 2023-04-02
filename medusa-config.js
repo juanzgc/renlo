@@ -42,7 +42,11 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 
-const plugins = [`medusa-fulfillment-manual`, `medusa-payment-manual`];
+const plugins = [
+  'medusa-fulfillment-manual',
+  'medusa-payment-manual',
+  '@medusajs/admin'
+];
 
 module.exports = {
   serverConfig: {
@@ -62,5 +66,24 @@ module.exports = {
   // monitoring: {
   //   uriPath: '/monitoring'
   // },
-  plugins
+  plugins,
+  modules: {
+    inventoryService: "@medusajs/inventory",
+    stockLocationService: "@medusajs/stock-location",
+    eventBus: {
+      resolve: "@medusajs/event-bus-redis",
+      options: {
+        redisUrl: REDIS_URL
+      }
+    },
+    cacheService: {
+      resolve: "@medusajs/cache-redis",
+      options: {
+        redisUrl: REDIS_URL
+      }
+    }
+  },
+  featureFlags: {
+    product_categories: true
+  }
 };
