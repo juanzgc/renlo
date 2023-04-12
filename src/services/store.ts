@@ -94,6 +94,7 @@ class StoreService extends MedusaStoreService {
   ): Promise<EntityEventType<Invite, 'Insert'>> {
     const { event } = params
 
+    console.log('add store to invite')
     let store_id = null
     if (isLoggedInUser(this.container)) {
       store_id = this.container.loggedInUser.store_id

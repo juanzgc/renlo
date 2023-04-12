@@ -16,6 +16,7 @@ interface Params {
   userRepository: typeof UserRepository
   inviteRepository: typeof InviteRepository
   eventBusService: EventBusService
+  configModule: ConfigModule
   loggedInUser?: User | null
 }
 
@@ -25,8 +26,8 @@ class InviteService extends MedusaInviteService {
   protected readonly inviteRepository: typeof InviteRepository
 
   constructor(private readonly container: Params, configModule: ConfigModule) {
-    super(container, configModule)
-
+    // @TODO Config Module is not being set
+    super(container, container.configModule)
     this.inviteRepository = container.inviteRepository
   }
 
