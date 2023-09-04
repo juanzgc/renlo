@@ -4,6 +4,7 @@ import { Store as MedusaStore } from '@medusajs/medusa/dist'
 import { User } from '../user/user.entity'
 import { Order } from '../order/order.entity'
 import { Product } from '../product/product.entity'
+import { Invite } from '../invite/invite.entity'
 
 @MedusaEntity({ override: MedusaStore })
 @Entity()
@@ -16,4 +17,7 @@ export class Store extends MedusaStore {
 
   @OneToMany(() => Order, (order) => order.store)
   orders: Order[]
+
+  @OneToMany(() => Invite, (invite) => invite.store)
+  invites: Invite[]
 }

@@ -56,6 +56,10 @@ export class OrderService extends MedusaOrderService {
       this.container.loggedInUser.store_id
     ) {
       selector['store_id'] = this.container.loggedInUser.store_id
+      config.relations = config.relations || []
+      config.relations.push('children')
+      config.relations.push('parent')
+      config.relations.push('store')
     }
 
     return super.listAndCount(selector, config as any) as unknown as Promise<
